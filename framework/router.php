@@ -70,7 +70,7 @@ namespace Framework
         
         public function dispatch()
         {
-            $url= $this->url;
+            $url = $this->url;
             $parameters = array();
             $controller = "index";
             $action = "index";
