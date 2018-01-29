@@ -63,6 +63,17 @@ namespace Framework
             
             return $return;
         }
+
+        public static function last($array)
+        {
+            if (sizeof($array) == 0)
+            {
+                return null;
+            }
+
+            $keys = array_keys($array);
+            return $array[$keys[sizeof($keys) - 1]];
+        }
         
     }
 }

@@ -22,7 +22,7 @@ namespace Framework
         /**
          * @readwrite
          */
-        protected $_footer = "return implode(\$_text)";
+        protected $_footer = "return implode(\$_text);";
 
         /**
          * @read
@@ -39,46 +39,12 @@ namespace Framework
             return new Exception\Implementation("{$method} method not implemented");
         }
 
-        public function parse($template)
-        {
-            if (!is_a($this->_implementation, "Framework\Template\Implementation"))
-            {
-                throw new Exception\Implementation();
-            }
-
-            $array = $this->_array($template);
-            $tree = $this->_tree($array["all"]);
-
-            $this->_code = $this->header.$this->_script($tree).$this->footer;
-            $this->_function = create_function("\$_data", $this->code);
-        }
-
-        public function process($data = array())
-        {
-            if ($this->_function == null)
-            {
-                throw new Exception\Parser();
-            }
-
-            try
-            {
-                $function = $this->_function;
-                return $function($data);
-            }
-            catch (\Exception $e)
-            {
-                throw new Exception\Parser($e);
-            }
-        }
-
         protected function _arguments($source, $expression)
         {
             $args = $this->_array($expression, array(
                 $expression => array(
-                    "opener" => array(
-                        "opener" => "{",
-                        "closer" => "}"
-                    )
+                    "opener" => "{",
+                    "closer" => "}"
                 )
             ));
 
@@ -109,7 +75,6 @@ namespace Framework
             $arguments = array();
 
             $match = $this->_implementation->match($source);
-
             if ($match == null)
             {
                 return false;
@@ -125,7 +90,7 @@ namespace Framework
             if (isset($type["tags"]))
             {
                 $tags = implode("|", array_keys($type["tags"]));
-                $regex = "#^(/){0, 1}({$tags})\s*(.*)$#";
+                $regex = "#^(/){0,1}({$tags})\s*(.*)$#";
 
                 if (!preg_match($regex, $extract, $matches))
                 {
@@ -164,7 +129,7 @@ namespace Framework
                 "closer" => false,
                 "source" => $extract,
                 "arguments" => $arguments,
-                "isolated" => (!empty($type["tags"]) ? $type["tags"][$tag]["isolated"]: false)
+                "isolated" => (!empty($type["tags"]) ? $type["tags"][$tag]["isolated"] : false)
             );
         }
 
@@ -221,7 +186,6 @@ namespace Framework
             $root = array(
                 "children" => array()
             );
-
             $current =& $root;
 
             foreach ($array as $i => $node)
@@ -256,7 +220,7 @@ namespace Framework
                             );
                             $current =& $current["children"][sizeof($current["children"]) - 1];
                         }
-                        else if (isset($current["children"]) && $result["tag"] == $current["tag"])
+                        else if (isset($current["tag"]) && $result["tag"] == $current["tag"])
                         {
                             $start = $current["index"] + 1;
                             $length = $i - $start;
@@ -312,6 +276,39 @@ namespace Framework
 
             return implode($content);
         }
+
+        public function parse($template)
+        {
+            if (!is_a($this->_implementation, "Framework\Template\Implementation"))
+            {
+                throw new Exception\Implementation();
+            }
+
+            $array = $this->_array($template);
+            $tree = $this->_tree($array["all"]);
+
+            $this->_code = $this->header.$this->_script($tree).$this->footer;
+            $this->_function = create_function("\$_data", $this->code);
+
+            return $this;
+        }
+
+        public function process($data = array())
+        {
+            if ($this->_function == null)
+            {
+                throw new Exception\Parser();
+            }
+
+            try
+            {
+                $function = $this->_function;
+                return $function($data);
+            }
+            catch (\Exception $e)
+            {
+                throw new Exception\Parser($e);
+            }
+        }
     }
 }
-

@@ -42,6 +42,11 @@ namespace Framework\Database\Connector
         /**
          * @readwrite
          */
+        protected $_engine = "InnoDB";
+
+        /**
+         * @readwrite
+         */
         protected $_isConnected = false;
 
         protected function _isValidService()
@@ -242,6 +247,6 @@ namespace Framework\Database\Connector
             return $this;
         }
 
-        
+
     }
 }

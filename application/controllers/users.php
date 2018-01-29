@@ -8,6 +8,9 @@ class Users extends Controller
 {
     public function register()
     {
+        $view = $this->getActionView();
+        $view->set("errors", array());
+
         if (RequestMethods::post("register"))
         {
             $first = RequestMethods::post("first");
