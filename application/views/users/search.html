@@ -61,10 +61,19 @@
     <table>
         <tr>
             <th>Name</th>
+            <th>&nbsp;</th>
         </tr>
         {foreach $row in $users}
             <tr>
                 <td>{echo $row->first} {echo $row->last}</td>
+                <td>
+                    {if User::hasFriend($user->id, $row->id)}
+                        <a href="/unfriend/{echo $row->id}.html">unfriend</a>
+                    {/if}
+                    {else}
+                        <a href="/friend/{echo $row->id}.html">friend</a>
+                    {/else}
+                </td>
             </tr>
         {/foreach}
     </table>
