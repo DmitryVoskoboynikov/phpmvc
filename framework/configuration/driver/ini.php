@@ -20,7 +20,7 @@ namespace Framework\Configuration\Driver
                 $config = array();
 
                 ob_start();
-                    include("ini.php");
+                    include("{$path}.ini");
                     $string = ob_get_contents();
                 ob_end_clean();
 
@@ -59,5 +59,7 @@ namespace Framework\Configuration\Driver
 
             return $config;
         }
+
+
     }
 }

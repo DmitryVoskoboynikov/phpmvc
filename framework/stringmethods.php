@@ -187,13 +187,24 @@ namespace Framework
             return $unique;
         }
 
-        public function indexOf($string, $substring, $offset=null)
+        public static function indexOf($string, $substring, $offset=null)
         {
             $position = strpos($string, $substring, $offset);
             if (!is_int($position))
             {
                 return -1;
             }
+            return $position;
+        }
+
+        public static function lastIndexOf($string, $substring, $offset = null)
+        {
+            $position = strrpos($string, $substring, $offset);
+            if (!is_int($position))
+            {
+                return -1;
+            }
+
             return $position;
         }
         

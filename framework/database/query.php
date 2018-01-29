@@ -144,7 +144,7 @@ namespace Framewor\Database
                 throw new Exception\Argument("Invalid argument");
             }
 
-            $arguments[0] = preg_replace("#\?#" "%s", $arguments[0]);
+            $arguments[0] = preg_replace("#\?#", "%s", $arguments[0]);
 
             foreach (array_slice($arguments, 1, null, true) as $i => $parameter)
             {

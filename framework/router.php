@@ -135,7 +135,7 @@ namespace Framework
             $inspector = new Inspector($instance);
             $methodMeta = $inspector->getMethodMeta($action);
             
-            if (!empty($methodMeta["@protected"]) || !emtpy($methodMeta["@private"]))
+            if (!empty($methodMeta["@protected"]) || !empty($methodMeta["@private"]))
             {
                 throw new Exception\Action("Action {$action} not found");
             }
