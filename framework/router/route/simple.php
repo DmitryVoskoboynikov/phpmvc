@@ -11,7 +11,7 @@ namespace Framework\Router\Route
         {
             $pattern = $this->pattern;
 
-            preg_match_all("#:[a-zA-Z0-9]+#", $pattern, $keys);
+            preg_match_all("#:([a-zA-Z0-9]+)#", $pattern, $keys);
 
             if (sizeof($keys) && sizeof($keys[0]) && sizeof($keys[1]))
             {
@@ -22,7 +22,7 @@ namespace Framework\Router\Route
                 return preg_match("#^{$pattern}$#", $url);
             }
 
-            $pattern = preg_replace("#(:[a-zA-Z0-9]+)", "([a-zA-Z0-9-_]+)", $pattern);
+            $pattern = preg_replace("#(:[a-zA-Z0-9]+)#", "([a-zA-Z0-9-_]+)", $pattern);
 
             preg_match_all("#^{$pattern}$#", $url, $values);
 
